@@ -1,10 +1,7 @@
-import './App.css';
-
 import React, { Component } from 'react'
-
 import Products  from "./components/Products";
 
-export default class App extends Component {
+class App extends Component {
   constructor(props){
     super(props);
     this.state = {products: [], filteredProducts: []}
@@ -23,13 +20,15 @@ export default class App extends Component {
           <hr/>
           <div className="row">
             <div className="col-md-8">
-
+              <Products products={this.state.filteredProducts} handleAddToCart={this.handleAddToCart}/>
             </div>
             <div className="col-md-4">
-              <Products products={this.state.filteredProducts} handleAddToCart={this.handleAddToCart}/>
+              
             </div>
           </div>
         </div>
     )
   }
 }
+
+export default App;
