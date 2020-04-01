@@ -5,8 +5,15 @@ import Filter from './components/Filter';
 class App extends Component {
   constructor(props){
     super(props);
-    this.state = {products: [], filteredProducts: []}
+    this.state = {
+      size: "",
+      sort: "",
+      cartItems: [],
+      products: [],
+      filteredProducts: []
+    };
     this.handleChangeSort = this.handleChangeSort.bind(this)
+    this.handleChangeSize = this.handleChangeSize.bind(this)
   }
   componentWillMount(){
     fetch("http://localhost:8000/products").then(res => res.json())
@@ -19,6 +26,10 @@ class App extends Component {
     this.setState({sort: e.target.value});
     this.listProducts();
   }
+  handleChangeSize(e){
+    this.setState({size: e.target.value});
+    this.listProducts();
+  }
   listProducts(){
     this.setState(state => {
       if(state.sort !== ''){
@@ -26,6 +37,14 @@ class App extends Component {
       }
       else{
         state.products.sort((a,b)=> a.id<b.id?1:-1)
+      }
+
+      if (state.size !== "") {
+        return {
+          filteredProducts: state.products.filter(
+            a => a.availableSizes.indexOf(state.size.toUpperCase()) >= 0
+          )
+        };
       }
       return {filteredProducts:state.products}
     })
