@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Products  from "./components/Products";
 import Filter from './components/Filter';
+import Basket from './components/Basket';
 
 class App extends Component {
   constructor(props){
@@ -62,7 +63,7 @@ class App extends Component {
               <Products products={this.state.filteredProducts} handleAddToCart={this.handleAddToCart}/>
             </div>
             <div className="col-md-4">
-              
+              <Basket cartItems={this.state.cartItems} handleRemoveFromCart={this.handleRemoveCart}/>
             </div>
           </div>
         </div>
