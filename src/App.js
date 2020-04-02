@@ -15,6 +15,7 @@ class App extends Component {
     };
     this.handleChangeSort = this.handleChangeSort.bind(this)
     this.handleChangeSize = this.handleChangeSize.bind(this)
+    this.handleAddToCart = this.handleAddToCart.bind(this)
   }
   componentWillMount(){
     fetch("http://localhost:8000/products").then(res => res.json())
@@ -30,6 +31,26 @@ class App extends Component {
   handleChangeSize(e){
     this.setState({size: e.target.value});
     this.listProducts();
+  }
+  handleAddToCart(e, product){
+    this.setState( state => {
+      const cartItems = state.cartItems;
+      let productAlreadyInCart = false
+      cartItems.forEach(item => {
+        if(item.id === product.id){
+          productAlreadyInCart =true;
+          
+          item.count++;
+
+        }
+      });
+
+      if(!productAlreadyInCart){
+        cartItems.push({...product, count:1})
+      }
+      localStorage.setItem("cartItems",JSON.stringify(cartItems));
+      return cartItems
+    })
   }
   listProducts(){
     this.setState(state => {
@@ -53,7 +74,7 @@ class App extends Component {
   render() {
     return (
         <div className="container">
-          <h1>Ècommerce shopping cart application</h1>
+          <h1>Ecommerce shopping cart application</h1>
           <hr/>
           <div className="row">
             <div className="col-md-8">
